@@ -72,7 +72,7 @@ class CartHandler {
       let fileContent = await this.getAll();
       if (fileContent.some(cartInFile => cartInFile.id === cartId)) {
         //id has to be replaced
-        const indexForReplacement = fileContent.findIndex(cart => cartId === cartId);
+        const indexForReplacement = fileContent.findIndex(cart => cart.id === cartId);
         fileContent[indexForReplacement] = {id: cartId, productList: cartArray};
       } else {
         fileContent.push({id: cartId, productList: cartArray});
