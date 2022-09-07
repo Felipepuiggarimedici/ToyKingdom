@@ -75,12 +75,11 @@ class CartHandler {
         const indexForReplacement = fileContent.findIndex(cart => cartId === cartId);
         fileContent[indexForReplacement] = {id: cartId, productList: cartArray};
       } else {
-        fileContent.push({id: cartId, productList: cartArray})
+        fileContent.push({id: cartId, productList: cartArray});
       }
         await fs.promises.writeFile(this.fileName, JSON.stringify(fileContent));
         return (cartId);
     } catch (error) {
-      console.log(error);
       return `File couldn't be updated ${error}`;
     }
   }

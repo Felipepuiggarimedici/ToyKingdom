@@ -2,7 +2,7 @@ import replaceCart from "../../dataAccessLayer/cartAccess/replaceCart";
 import Cart from "../models/cartModel";
 import getCartData from "./getCartData";
 
-const changeCart = async (cartId: string, productIds : Array<string>): Promise<string> => {
+const addToCart = async (cartId: string, productIds : Array<string>): Promise<string> => {
     const cartData : string | Map<string, number> = await getCartData(cartId);
     let newCart : Cart;
     if (typeof cartData === "string") {
@@ -16,4 +16,4 @@ const changeCart = async (cartId: string, productIds : Array<string>): Promise<s
     })
     return await replaceCart(newCart);
 }
-export default changeCart;
+export default addToCart;

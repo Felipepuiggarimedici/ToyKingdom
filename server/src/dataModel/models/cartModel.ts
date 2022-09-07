@@ -22,13 +22,22 @@ class Cart {
         this.timestamp = new Date();
         return true;
     }
-    removeProduct (id : string): Boolean {
-        if (id === "Temporal ID" || this.productList.has(id)) {
+    subtractProduct (id : string): Boolean {
+        if (id === "Temporal ID" || !this.productList.has(id)) {
             return false;
         } else if (this.productList.get(id) === 1) {
             this.productList.delete(id);
         } else {
             this.productList.set(id, this.productList.get(id) - 1);
+        }
+        this.timestamp = new Date();
+        return true;
+    }
+    deleteProduct (id : string): Boolean {
+        if (id === "Temporal ID") {
+            return false;
+        } else {
+            this.productList.delete(id);
         }
         this.timestamp = new Date();
         return true;
