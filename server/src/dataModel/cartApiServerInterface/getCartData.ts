@@ -1,6 +1,6 @@
 import retrieveCart from "../../dataAccessLayer/CartAccess/retrieveCart";
 
-const getCart = async (id : string):Promise<Map<string, number> | string> => {
+const getCartData = async (id : string):Promise<Map<string, number> | string> => {
     try {
         const unformattedCart = await retrieveCart(id);
         if (typeof unformattedCart === "string") {
@@ -21,4 +21,4 @@ const getCart = async (id : string):Promise<Map<string, number> | string> => {
         return `Cart could not be formatted: ${error}`
     }
 }
-export default getCart;
+export default getCartData;

@@ -67,26 +67,21 @@ class CartHandler {
       return `Error: ${error}`
     }
   };
-  changeCart = async (newCart) => {
+  changeCart = async (cartId, cartArray) => {
     try {
       let fileContent = await this.getAll();
-      if (isNaN(newCart.id) || typeof newCart.price !== "number" || !newCart.cartName) {
-        return "ID, price and name should be of type integer and should be specified";
-      }
-      //'If the cartnewCart is already in the file, it is deleted from the file
-      fileContent = fileContent.filter(cartInFile => cartInFile.cartName !== newCart.cartName);
-      if (fileContent.some(cartInFile => cartInFile.id === newCart.id)) {
+      if (fileContent.some(cartInFile => cartInFile.id === cartId)) {
         //id has to be replaced
-        const indexForReplacement = fileContent.findIndex(cart => cart.id === newCart.id);
-        fileContent[indexForReplacement] = {id: newProduct.id, ...newCart};
+        const indexForReplacement = fileContent.findIndex(cart => cartId === cartId);
+        fileContent[indexForReplacement] = {id: cartId, productList: cartArray};
       } else {
-        fileContent.push({id: newProduct.id, ...newCart})
+        fileContent.push({id: cartId, productList: cartArray})
       }
         await fs.promises.writeFile(this.fileName, JSON.stringify(fileContent));
-        return (newCart.id);
+        return (cartId);
     } catch (error) {
       console.log(error);
-      return `File couldn't be updated`;
+      return `File couldn't be updated ${error}`;
     }
   }
 }

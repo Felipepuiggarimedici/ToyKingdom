@@ -1,6 +1,7 @@
 import { Router } from "express";
 import attemptCartDeletion from "../../dataModel/cartApiServerInterface/attemptCartDeletion";
-import getCart from "../../dataModel/cartApiServerInterface/getCart";
+import changeCart from "../../dataModel/cartApiServerInterface/changeCart";
+import getCartData from "../../dataModel/cartApiServerInterface/getCartData";
 import pushCart from "../../dataModel/cartApiServerInterface/pushCart";
 
 const cartRouter = Router();
@@ -36,7 +37,7 @@ cartRouter.get("/:id/products", async (req, res) => {
         return res.status(400).send("Id is not of type string");
     }
     try {
-        const cartMap: Map<string, number> | string = await getCart(id);
+        const cartMap: Map<string, number> | string = await getCartData(id);
         if (cartMap === "Empty Cart" || cartMap === "Id does not exist") {
             return res.status(200).send("Empty Cart");
         } else if (typeof cartMap === "string") {
@@ -47,7 +48,19 @@ cartRouter.get("/:id/products", async (req, res) => {
         }
     } catch (error) {
         return res.status(500).send(`Error: ${error}`)
+    }    
+})
+cartRouter.post("/:id/products", async (req, res) => {
+    const cartId : any = req.params.id;
+    const productIds : any = req.body;
+    if (typeof cartId !== "string" || !Array.isArray(productIds)) {
+        return res.status(400).send("Cart id should be of type string and product ids should be the only parameter in the body and should be of type array");
     }
-    
+    try {
+        const changeInformation = await changeCart(cartId, productIds);
+        return res.send(200).send(changeInformation)
+    } catch (error) {
+        return res.send(500).send(`Error: ${error}`)
+    }
 })
 export default cartRouter;
